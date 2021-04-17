@@ -15,11 +15,12 @@
             <p>News articles will be recommended based on clustering of similar articles, predicting their category, content similarity & keyword extraction.
             </p>
         </li>
-        
-        <li>
-            <p>All information regarding the past clicks, likes, engagement and the amount of time that a user spends on a particular article on this website will be taken into consideration and will be prioritized for future content and predictions.
+  <li>
+            <p>All information regarding the past clicks, likes, engagement  on this website will be taken into consideration and will be prioritized for future content and predictions.
             </p>
         </li>
+        
+        
   </ul>
   <ol>
     <li><b>Installations<b></li>
