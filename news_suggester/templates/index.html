@@ -1,0 +1,645 @@
+{% extends "base.html" %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        index.html
+    </title>
+
+    <!-- BootStrap CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+    <!-- BootStrap CDN Ends here -->
+
+    <script src="{% static 'script_file.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'css_file.css' %}">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+    <!-- cards slider css -->
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+</head>
+
+<body>
+
+    {% block content %}
+
+
+
+    <br>
+    <br><br>
+    <section>
+        <h3></h3>
+        <!-- cards slider starts here -->
+        <div class="main-carousel fixed" data-flickity='{"autoPlay": 4000,"wrapAround": true, "cellAlign": "left", "freeScroll": true,"contain":true,"groupCells": true,"prevNextButtons": false,"pageDots": true}'>
+
+            {% for each_article in slider_articles %}
+            <div class="carousel-cell">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top img-fluid" src="{{each_article.thumbnail}}" alt="Card image cap" style="height: 200px;width: 550px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{each_article.headlines |truncatechars:42}}</h5>
+                        <p class="card-text"></p>
+
+                        <a href="{{each_article.source_link}}" class="text-white btn btn-danger" style="text-decoration: none;" onclick="AddToHitory({{each_article.id}})">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+
+
+        </div>
+        <!-- casrs slider ends here -->
+    </section>
+
+    <section>
+        <!-- Tabs Starts here -->
+        <div class="container-fluid mt-3 ">
+
+            <br>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs position-relative" style="background-color: antiquewhite;">
+                <li class="nav-item">
+                    <a class="nav-link  active " href="#topnews">Top News</a>
+                </li>
+                <li class="nav-item  ">
+                    <a class="nav-link " href="#politics">Politics</a>
+                </li>
+                <li class="nav-item  ">
+                    <a class="nav-link " href="#business">Business</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link " href="#entertainment">Entertainment</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="#tech">Tech</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="#health">Health</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#crime">Crime</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#sports">Sports</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#mynews">My News</a>
+                </li>
+                {% endif %}
+
+
+            </ul>
+
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+
+                <div id="topnews" class="container-fluid tab-pane active"><br> {% for each_article in articles %}
+
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <div class="row  ">
+                                <div class="col-2"><img class="card-img-top img-thumbnail img-fluid" style="width: 250px;height: auto;" src="{{each_article.thumbnail}}" alt="Card image cap"></div>
+
+                                <div class="col-10 text-left">
+                                    <h3 class="text-primary">
+                                        {{each_article.headlines}}
+
+                                    </h3>
+                                    <p>
+                                        {{each_article.description }}
+                                    </p>
+                                    <p><span class="font-italic text-danger "> Added at {{each_article.timestamp}}</span></p>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button class="btn-dark text-light"> <a class="text-white"
+                                                    href="{{each_article.source_link}}" style="text-decoration: none;"
+                                                    onclick="AddToHitory({{each_article.id}})">Read More</a> </button>
+
+                                            <span><button class="text-center btn-primary"  data-toggle="tooltip" title="Like" onclick="Like_This_Article({{each_article.id}})"><i
+                                                        class="fas fa-thumbs-up"></i></button></span>
+
+                                            <span><button data-toggle="tooltip" title="Share to Fb"><a class="text-center " href="https://www.facebook.com/sharer.php?u={{each_article.source_link}}"><i
+                                                class="fas fa-share" onclick="Share_This_Article({{each_article.id}})"></i></a></button></span>
+
+                                            <span><button class="text-center btn-dark" data-toggle="tooltip" title="Save"><i
+                                                    class="fas fa-download" onclick="Save_This_Article({{each_article.id}})"></i></button></span>
+
+
+
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-left"></span>Category : <span class="text-bold text-danger">{{each_article.category}}</span> </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Source : <span class="text-bold text-danger">{{each_article.source_name}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+
+                                            <span class="text-left"></span>Author : <span class="text-bold text-danger">{{each_article.author}}</span> </span>
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% empty %}
+                    <h3 class="text-center text-danger">No Data Found for this Category</h3>
+                    {% endfor %}
+
+
+
+                </div>
+                <div id="politics" class="container-fluid tab-pane fade">
+                    <br> {% for each_article in politics %}
+
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <div class="row  ">
+                                <div class="col-2"><img class="card-img-top img-thumbnail img-fluid" style="width: 250px;height: auto;" src="{{each_article.thumbnail}}" alt="Card image cap"></div>
+                                <div class="col-10 text-left">
+                                    <h3 class="text-primary">
+                                        {{each_article.headlines}}
+                                    </h3>
+                                    <p>
+                                        {{each_article.description }}
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button class="btn-dark text-light"> <a class="text-white"
+                                                    href="{{each_article.source_link}}" style="text-decoration: none;"
+                                                    onclick="AddToHitory({{each_article.id}})">Read More</a> </button>
+
+                                            <span><button class="text-center btn-primary"  data-toggle="tooltip" title="Like" onclick="Like_This_Article({{each_article.id}})"><i
+                                                        class="fas fa-thumbs-up"></i></button></span>
+
+                                            <span><button data-toggle="tooltip" title="Share to Fb"><a class="text-center " href="https://www.facebook.com/sharer.php?u={{each_article.source_link}}"><i
+                                                class="fas fa-share" onclick="Share_This_Article({{each_article.id}})"></i></a></button></span>
+
+                                            <span><button class="text-center btn-dark" data-toggle="tooltip" title="Save"><i
+                                                    class="fas fa-download" onclick="Save_This_Article({{each_article.id}})"></i></button></span>
+
+
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-left"></span>Category : <span class="text-bold text-danger">{{each_article.category}}</span> </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Source : <span class="text-bold text-danger">{{each_article.source_name}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Author : <span class="text-bold text-danger">{{each_article.author}}</span> </span>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% empty %}
+                    <h3 class="text-center text-danger">No Data Found for this Category</h3>
+                    {% endfor %}
+                </div>
+                <div id="business" class="container-fluid tab-pane fade"><br> {% for each_article in business %}
+
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <div class="row  ">
+                                <div class="col-2"><img class="card-img-top img-thumbnail img-fluid" style="width: 250px;height: auto;" src="{{each_article.thumbnail}}" alt="Card image cap"></div>
+                                <div class="col-10 text-left">
+                                    <h3 class="text-primary">
+                                        {{each_article.headlines}}
+                                    </h3>
+                                    <p>
+                                        {{each_article.description }}
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button class="btn-dark text-light"> <a class="text-white"
+                                                    href="{{each_article.source_link}}" style="text-decoration: none;"
+                                                    onclick="AddToHitory({{each_article.id}})">Read More</a> </button>
+
+                                            <span><button class="text-center btn-primary"  data-toggle="tooltip" title="Like" onclick="Like_This_Article({{each_article.id}})"><i
+                                                        class="fas fa-thumbs-up"></i></button></span>
+
+                                            <span><button data-toggle="tooltip" title="Share to Fb"><a class="text-center " href="https://www.facebook.com/sharer.php?u={{each_article.source_link}}"><i
+                                                class="fas fa-share" onclick="Share_This_Article({{each_article.id}})"></i></a></button></span>
+
+                                            <span><button class="text-center btn-dark" data-toggle="tooltip" title="Save"><i
+                                                    class="fas fa-download" onclick="Save_This_Article({{each_article.id}})"></i></button></span>
+
+
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-left"></span>Category : <span class="text-bold text-danger">{{each_article.category}}</span> </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Source : <span class="text-bold text-danger">{{each_article.source_name}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Author : <span class="text-bold text-danger">{{each_article.author}}</span> </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    {% empty %}
+                    <h3 class="text-center text-danger">No Data Found for this Category</h3>
+                    {% endfor %}
+                </div>
+
+
+
+                <div id="entertainment" class="container-fluid tab-pane fade"><br> {% for each_article in entertainment %}
+
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <div class="row  ">
+                                <div class="col-2"><img class="card-img-top img-thumbnail img-fluid" style="width: 250px;height: auto;" src="{{each_article.thumbnail}}" alt="Card image cap"></div>
+                                <div class="col-10 text-left">
+                                    <h3 class="text-primary">
+                                        {{each_article.headlines}}
+                                    </h3>
+                                    <p>
+                                        {{each_article.description }}
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button class="btn-dark text-light"> <a class="text-white"
+                                                    href="{{each_article.source_link}}" style="text-decoration: none;"
+                                                    onclick="AddToHitory({{each_article.id}})">Read More</a> </button>
+
+                                            <span><button class="text-center btn-primary"  data-toggle="tooltip" title="Like" onclick="Like_This_Article({{each_article.id}})"><i
+                                                        class="fas fa-thumbs-up"></i></button></span>
+
+                                            <span><button data-toggle="tooltip" title="Share to Fb"><a class="text-center " href="https://www.facebook.com/sharer.php?u={{each_article.source_link}}"><i
+                                                class="fas fa-share" onclick="Share_This_Article({{each_article.id}})"></i></a></button></span>
+
+                                            <span><button class="text-center btn-dark" data-toggle="tooltip" title="Save"><i
+                                                    class="fas fa-download" onclick="Save_This_Article({{each_article.id}})"></i></button></span>
+
+
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-left"></span>Category : <span class="text-bold text-danger">{{each_article.category}}</span> </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Source : <span class="text-bold text-danger">{{each_article.source_name}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Author : <span class="text-bold text-danger">{{each_article.author}}</span> </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% empty %}
+                    <h3 class="text-center text-danger">No Data Found for this Category</h3>
+                    {% endfor %}
+                </div>
+
+                <div id="tech" class="container-fluid tab-pane fade"><br> {% for each_article in tech %}
+
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <div class="row  ">
+                                <div class="col-2"><img class="card-img-top img-thumbnail img-fluid" style="width: 250px;height: auto;" src="{{each_article.thumbnail}}" alt="Card image cap"></div>
+                                <div class="col-10 text-left">
+                                    <h3 class="text-primary">
+                                        {{each_article.headlines}}
+                                    </h3>
+                                    <p>
+                                        {{each_article.description }}
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button class="btn-dark text-light"> <a class="text-white"
+                                                    href="{{each_article.source_link}}" style="text-decoration: none;"
+                                                    onclick="AddToHitory({{each_article.id}})">Read More</a> </button>
+
+                                            <span><button class="text-center btn-primary"  data-toggle="tooltip" title="Like" onclick="Like_This_Article({{each_article.id}})"><i
+                                                        class="fas fa-thumbs-up"></i></button></span>
+
+                                            <span><button data-toggle="tooltip" title="Share to Fb"><a class="text-center " href="https://www.facebook.com/sharer.php?u={{each_article.source_link}}"><i
+                                                class="fas fa-share" onclick="Share_This_Article({{each_article.id}})"></i></a></button></span>
+
+                                            <span><button class="text-center btn-dark" data-toggle="tooltip" title="Save"><i
+                                                    class="fas fa-download" onclick="Save_This_Article({{each_article.id}})"></i></button></span>
+
+
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-left"></span>Category : <span class="text-bold text-danger">{{each_article.category}}</span> </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Source : <span class="text-bold text-danger">{{each_article.source_name}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Author : <span class="text-bold text-danger">{{each_article.author}}</span> </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% empty %}
+                    <h3 class="text-center text-danger">No Data Found for this Category</h3>
+                    {% endfor %}
+                </div>
+
+                <div id="health" class="container-fluid tab-pane fade"><br> {% for each_article in health %}
+
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <div class="row  ">
+                                <div class="col-2"><img class="card-img-top img-thumbnail img-fluid" style="width: 250px;height: auto;" src="{{each_article.thumbnail}}" alt="Card image cap"></div>
+                                <div class="col-10 text-left">
+                                    <h3 class="text-primary">
+                                        {{each_article.headlines}}
+                                    </h3>
+                                    <p>
+                                        {{each_article.description }}
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button class="btn-dark text-light"> <a class="text-white"
+                                                    href="{{each_article.source_link}}" style="text-decoration: none;"
+                                                    onclick="AddToHitory({{each_article.id}})">Read More</a> </button>
+
+                                            <span><button class="text-center btn-primary"  data-toggle="tooltip" title="Like" onclick="Like_This_Article({{each_article.id}})"><i
+                                                        class="fas fa-thumbs-up"></i></button></span>
+
+                                            <span><button data-toggle="tooltip" title="Share to Fb"><a class="text-center " href="https://www.facebook.com/sharer.php?u={{each_article.source_link}}"><i
+                                                class="fas fa-share" onclick="Share_This_Article({{each_article.id}})"></i></a></button></span>
+
+                                            <span><button class="text-center btn-dark" data-toggle="tooltip" title="Save"><i
+                                                    class="fas fa-download" onclick="Save_This_Article({{each_article.id}})"></i></button></span>
+
+
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-left"></span>Category : <span class="text-bold text-danger">{{each_article.category}}</span> </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Source : <span class="text-bold text-danger">{{each_article.source_name}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Author : <span class="text-bold text-danger">{{each_article.author}}</span> </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% empty %}
+                    <h3 class="text-center text-danger">No Data Found for this Category</h3>
+                    {% endfor %}
+                </div>
+
+                <div id="crime" class="container-fluid tab-pane fade"><br> {% for each_article in crime %}
+
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <div class="row  ">
+                                <div class="col-2"><img class="card-img-top img-thumbnail img-fluid" style="width: 250px;height: auto;" src="{{each_article.thumbnail}}" alt="Card image cap"></div>
+                                <div class="col-10 text-left">
+                                    <h3 class="text-primary">
+                                        {{each_article.headlines}}
+                                    </h3>
+                                    <p>
+                                        {{each_article.description }}
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button class="btn-dark text-light"> <a class="text-white"
+                                                    href="{{each_article.source_link}}" style="text-decoration: none;"
+                                                    onclick="AddToHitory({{each_article.id}})">Read More</a> </button>
+
+                                            <span><button class="text-center btn-primary"  data-toggle="tooltip" title="Like" onclick="Like_This_Article({{each_article.id}})"><i
+                                                        class="fas fa-thumbs-up"></i></button></span>
+
+                                            <span><button data-toggle="tooltip" title="Share to Fb"><a class="text-center " href="https://www.facebook.com/sharer.php?u={{each_article.source_link}}"><i
+                                                class="fas fa-share" onclick="Share_This_Article({{each_article.id}})"></i></a></button></span>
+
+                                            <span><button class="text-center btn-dark" data-toggle="tooltip" title="Save"><i
+                                                    class="fas fa-download" onclick="Save_This_Article({{each_article.id}})"></i></button></span>
+
+
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-left"></span>Category : <span class="text-bold text-danger">{{each_article.category}}</span> </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Source : <span class="text-bold text-danger">{{each_article.source_name}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Author : <span class="text-bold text-danger">{{each_article.author}}</span> </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% empty %}
+                    <h3 class="text-center text-danger">No Data Found for this Category</h3>
+                    {% endfor %}
+                </div>
+
+                <div id="sports" class="container-fluid tab-pane fade"><br> {% for each_article in sports %}
+
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <div class="row  ">
+                                <div class="col-2"><img class="card-img-top img-thumbnail img-fluid" style="width: 250px;height: auto;" src="{{each_article.thumbnail}}" alt="Card image cap"></div>
+                                <div class="col-10 text-left">
+                                    <h3 class="text-primary">
+                                        {{each_article.headlines}}
+                                    </h3>
+                                    <p>
+                                        {{each_article.description }}
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button class="btn-dark text-light"> <a class="text-white"
+                                                    href="{{each_article.source_link}}" style="text-decoration: none;"
+                                                    onclick="AddToHitory({{each_article.id}})">Read More</a> </button>
+
+                                            <span><button class="text-center btn-primary"  data-toggle="tooltip" title="Like" onclick="Like_This_Article({{each_article.id}})"><i
+                                                        class="fas fa-thumbs-up"></i></button></span>
+
+                                            <span><button data-toggle="tooltip" title="Share to Fb"><a class="text-center " href="https://www.facebook.com/sharer.php?u={{each_article.source_link}}"><i
+                                                class="fas fa-share" onclick="Share_This_Article({{each_article.id}})"></i></a></button></span>
+
+                                            <span><button class="text-center btn-dark" data-toggle="tooltip" title="Save"><i
+                                                    class="fas fa-download" onclick="Save_This_Article({{each_article.id}})"></i></button></span>
+
+
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-left"></span>Category : <span class="text-bold text-danger">{{each_article.category}}</span> </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Source : <span class="text-bold text-danger">{{each_article.source_name}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Author : <span class="text-bold text-danger">{{each_article.author}}</span> </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% empty %}
+                    <h3 class="text-center text-danger">No Data Found for this Category</h3>
+                    {% endfor %}
+                </div>
+
+                {% if user.is_authenticated %}
+                <div id="mynews" class="container-fluid tab-pane fade"><br> {% for each_article in mynews %}
+
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <div class="row  ">
+                                <div class="col-2"><img class="card-img-top img-thumbnail img-fluid" style="width: 250px;height: auto;" src="{{each_article.article.thumbnail}}" alt="Card image cap"></div>
+                                <div class="col-10 text-left">
+                                    <h3 class="text-primary">
+                                        {{each_article.article.headlines}}
+                                    </h3>
+                                    <p>
+                                        {{each_article.article.description }}
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button class="btn-dark text-light"> <a class="text-white"
+                                                    href="{{each_article.article.source_link}}"
+                                                    style="text-decoration: none;"
+                                                    onclick="AddToHitory({{each_article.article.id}})">Read More</a> </button>
+
+                                            <span><button class="text-center btn-primary" onclick="Like_This_Article({{each_article.article.id}})">Like<i
+                                                        class="fas fa-thumbs-up"></i></button></span>
+
+                                            <span><button data-toggle="tooltip" title="Share to Fb"><a class="text-center " href="https://www.facebook.com/sharer.php?u={{each_article.article.source_link}}"><i
+                                                            class="fas fa-share" onclick="Share_This_Article({{each_article.article.id}})"></i></a></button></span>
+
+                                            <span><button class="text-center btn-dark" data-toggle="tooltip" title="Save"><i
+                                                                class="fas fa-download" onclick="Save_This_Article({{each_article.article.id}})"></i></button></span>
+
+
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-left"></span>Category : <span class="text-bold text-danger">{{each_article.article.category}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Source : <span class="text-bold text-danger">{{each_article.article.source_name}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-left"></span>Author : <span class="text-bold text-danger">{{each_article.article.author}}</span>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    {% empty %}
+                    <h3 class="text-center text-danger">No Data Found for this Category</h3>
+                    {% endfor %} {% endif %}
+                </div>
+            </div>
+
+        </div>
+        <!-- Tabs ends here -->
+    </section>
+
+
+
+
+
+    <!-- cards slider -->
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    {% endblock content %}
+
+
+
+
+
+</body>
+
+</html>

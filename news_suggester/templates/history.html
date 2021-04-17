@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block title %} history {% endblock title %} {% block content %}
+<br>
+<br>
+
+
+<h3 class="bg-dark text-success text-center my-1">watch history</h3>
+<div id="topnews" class="container-fluid tab-pane active"><br> {% for each_article in articles %}
+
+    <div class="card my-2">
+        <div class="card-body">
+            <div class="row  ">
+                <div class="col-2"><img class="card-img-top img-thumbnail img-fluid" style="width: 250px;height: auto;" src="{{each_article.article.thumbnail}}" alt="Card image cap"></div>
+                <div class="col-10 text-left">
+                    <h3 class="text-primary">
+                        <a href="{{each_article.article.source_link}}" onclick="AddToHitory({{each_article.id}})"> {{each_article.article.headlines}} </a>
+
+                    </h3>
+                    <div class=" row ">
+
+                        <div class="col-3 ">
+                            <span class="text-left "></span>Time : <span class="text-bold text-danger ">{{each_article.timestamp}}</span> </span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% empty %}
+    <h3 class="text-center text-danger">No Data Found</h3>
+
+    {% endfor %}
+
+
+
+
+</div>
+
+{% endblock content %}

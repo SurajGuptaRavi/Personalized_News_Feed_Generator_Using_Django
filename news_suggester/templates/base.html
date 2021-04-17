@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %} {% endblock title %}
+    </title>
+
+    <!-- BootStrap CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- BootStrap CDN Ends here -->
+
+    <script src="{% static 'script_file.js' %}"></script>
+    {% block dependencies %} {% endblock dependencies %}
+
+
+
+    <link rel="stylesheet" href="{% static 'css_file.css' %}">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+    <!-- cards slider css -->
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Jquery for c share -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/brands.css" integrity="sha384-1KLgFVb/gHrlDGLFPgMbeedi6tQBLcWvyNUN+YKXbD7ZFbjX6BLpMDf0PJ32XJfX" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">
+
+    <script src="{% static 'c-share.min.js' %}"></script>
+
+
+
+</head>
+
+<body>
+    <!-- Navigation Starts here -->
+    <nav class="navbar navbar-expand-sm bg-danger navbar-dark fixed-top">
+        <a class="navbar-brand bg-dark " href="./"> <span class="mx-auto"> Personalized NFG </span> </a>
+        <ul class="navbar-nav">
+            <li class="nav-item ">
+                <a class="nav-link text-white" href="./">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="./about">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="./contact">Contact</a>
+            </li>
+            <li class="nav-item">
+                <div id="shareBlock" class=" bg-light p-1"></div>
+            </li>
+
+
+
+
+
+        </ul>
+
+        <div class="collapse navbar-collapse justify-content-end " id="navbarCollapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary  dropdown-toggle" data-toggle="dropdown">
+                            Hello, {{request.user}}
+                        </button> {% if user.is_authenticated %}
+                        <div class="dropdown-menu">
+
+                            <a class="dropdown-item" href="./account">Account</a>
+                            <a class="dropdown-item" href="./saved_article">Saved Articles</a>
+                            <a class="dropdown-item" href="./history">History</a>
+                            <a class="dropdown-item" href="./logout">Log Out</a>
+
+
+                        </div>
+                        {% else %}
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="./login">Login</a>
+                            <a class="dropdown-item" href="./register">Register</a> {% endif %}
+                        </div>
+                    </div>
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+
+    </nav>
+
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    {% endfor %} {% block content %} {% endblock content %}
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script src="{% static 'jquery.c-share.js' %}"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
+
+        $('#shareBlock').cShare({
+            description: 'Personalized NFG is a site which procides the news based on the user interest and probably the best place for Reading the News Articles.',
+            showButtons: ['fb', 'line', 'plurk', 'weibo', 'twitter', 'tumblr', 'email']
+        });
+
+
+
+        // Script for liking the articles
+        function Like_This_Article(article_id) {
+            var xhttp;
+            if (window.XMLHttpRequest) {
+                // code for modern browsers
+                xhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log('Article added to watch');
+                }
+            };
+            xhttp.open("GET", "/like_article?article_id=" + String(article_id), true);
+            xhttp.send();
+        };
+
+        // Script for Saving the articles
+        function Save_This_Article(article_id) {
+            var xhttp;
+            if (window.XMLHttpRequest) {
+                // code for modern browsers
+                xhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log('Article added to watch');
+                }
+            };
+            xhttp.open("GET", "/save_article?article_id=" + String(article_id), true);
+            xhttp.send();
+        };
+
+        // Script for saving the count of Sharing  articles
+        function Share_This_Article(article_id) {
+            var xhttp;
+            if (window.XMLHttpRequest) {
+                // code for modern browsers
+                xhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log('Article added to watch');
+                }
+            };
+            xhttp.open("GET", "/share_article?article_id=" + String(article_id), true);
+            xhttp.send();
+        };
+
+
+        // Show_All_Category()
+        function Show_All_Category() {
+            var xhttp;
+            if (window.XMLHttpRequest) {
+                // code for modern browsers
+                xhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log('Article added to watch');
+                }
+            };
+            xhttp.open("GET", "/share_article?article_id=" + String(article_id), true);
+            xhttp.send();
+        };
+    </script>
+</body>
+
+</html>
