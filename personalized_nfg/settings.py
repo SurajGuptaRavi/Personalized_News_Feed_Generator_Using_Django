@@ -24,9 +24,9 @@ trained_model_path = os.path.join(BASE_DIR,'news_suggester/static/trained_model'
 SECRET_KEY = 'dz&8xtakq#9zr_xlnql7fv&21q#t^09ny*d^_ivyk2o*1o&wuy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*','192.168.1.204','45.112.42.29']
+ALLOWED_HOSTS = []
 
 
 # Application definition
