@@ -16,7 +16,7 @@
             </p>
         </li>
   <li>
-            <p>All information regarding the past clicks, likes, engagement  on this website will be taken into consideration and will be prioritized for future content and predictions.
+            <p>All information regarding the past clicks, likes, engagement  on this website will be taken into consideration  for future content and predictions.
             </p>
         </li>
         
