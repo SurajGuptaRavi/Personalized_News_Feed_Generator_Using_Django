@@ -6,8 +6,8 @@ class NewsScrapper:
 
     # It Scrapes news from newsapi.org website
     def NewsApi(self):
-        key="316870f070494e3c86f6755f3208da60"
-        url="http://newsapi.org/v2/top-headlines?country=in&apiKey="+key
+        key="Enter Your API key here"
+        #url="http://newsapi.org/v2/top-headlines?country=in&apiKey="+key
 
         res=requests.get(url)
         if str(res.json()['status']).lower() == 'ok':
@@ -29,7 +29,7 @@ class NewsScrapper:
         return news_list
 
     def GNewsApi(self):
-        key="c11791c6e465f8656599befec4849df5"
+        key="Enter your API key here"
         url=f"https://gnews.io/api/v4/search?q=india&token={key}&lang=en"
 
         res=requests.get(url)
