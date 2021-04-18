@@ -7,7 +7,7 @@ class NewsScrapper:
     # It Scrapes news from newsapi.org website
     def NewsApi(self):
         key="Enter Your API key here"
-        #url="http://newsapi.org/v2/top-headlines?country=in&apiKey="+key
+        url="http://newsapi.org/v2/top-headlines?country=in&apiKey="+key
 
         res=requests.get(url)
         if str(res.json()['status']).lower() == 'ok':
