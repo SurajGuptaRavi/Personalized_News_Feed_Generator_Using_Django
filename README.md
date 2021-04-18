@@ -27,7 +27,7 @@
   <a href="https://newsapi.org/"> Get API from News.org</a> <br>
   <a href="https://gnews.io/"> Get API from GNews.io</a> <br>
   
-  <b>- Now go to the personalized_nfg/news_suggester folder and open scrapper.py file and enter your api key</b><br>
+  <b>- Now go to the news_suggester folder and open scrapper.py file and enter your api key</b><br>
   
 <b>- Installations</b><br>
   `pip install -r Requirements.txt`
@@ -39,4 +39,4 @@
   
   `Terminal 3 :- celery -A personalized_nfg  worker -l info`
   
-<a href="#">Project demo will be uploaded soon</a> <br>
+<a href="https://youtu.be/qd0yf6q7L4E">Demo</a> <br>
