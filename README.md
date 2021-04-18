@@ -22,20 +22,21 @@
         
         
   </ul>
+  <b>- Get API key from the following websites</b><br>
   
   <a href="https://newsapi.org/"> Get API from News.org</a> <br>
   <a href="https://gnews.io/"> Get API from GNews.io</a> <br>
   
-  Now go to the personalized_nfg/news_suggester folder and open scrapper.py file and enter your api key<br>
+  <b>- Now go to the personalized_nfg/news_suggester folder and open scrapper.py file and enter your api key</b><br>
   
-<b>Installations</b><br>
+<b>- Installations</b><br>
   `pip install -r Requirements.txt`
   
-<b>Open 3 Terminals in your Project Dir where 'manage.py' file is located and paste the following code</b><br>
+<b>- Open 3 Terminals in your Project Dir where 'manage.py' file is located and paste the following code</b><br>
   `Terminal 1 :- python manage.py runserver`
   
   `Terminal 2 :- celery -A personalized_nfg  beat -l info`
   
   `Terminal 3 :- celery -A personalized_nfg  worker -l info`
   
-<a href="#"> Project demo will be uploaded soon</a> <br>
+<a href="#">Project demo will be uploaded soon</a> <br>
